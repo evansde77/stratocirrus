@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*~
 
 # C extensions
 *.so
@@ -63,6 +64,7 @@ instance/
 # Scrapy stuff:
 .scrapy
 
+
 # Sphinx documentation
 docs/_build/
 
@@ -102,3 +104,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#pycharm 
+.idea/
