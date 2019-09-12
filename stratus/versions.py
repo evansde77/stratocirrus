@@ -7,7 +7,17 @@ def today():
     return int(datetime.date.today().strftime('%Y%m%d'))
 
 
+def make_package_version(v):
+    """
+    helper to create a PackageVersion instance from the raw config
+    string
 
+    :param v: version string
+    :return: PackageVersion instance
+    """
+    pv = PackageVersion()
+    pv.parse_version(v)
+    return pv
 
 
 class PackageVersion(dict):

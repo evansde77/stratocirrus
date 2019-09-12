@@ -6,6 +6,7 @@ command launcher/delegator
 
 import sys, os, signal
 import subprocess
+from stratus.logger import stratus_logger
 
 
 def python_bin_dir():
@@ -105,7 +106,7 @@ class Delegate(dict):
         command = cli_args[0]
         if command not in self:
             msg = f"Cannot find delegation rule for command: {command}"
-            print(msg)
+            stratus_logger.error(msg)
             sys.exit(1)
 
         rule = self[command]
@@ -122,13 +123,12 @@ class Delegate(dict):
             new_dir = rule.cd_func()
             os.chdir(new_dir)
         try:
-            print(f"{rule.bin} {args}")
             command = [rule.bin]
             command.extend(args)
             exit_code = run_command(command)
         except Exception as ex:
             msg = "Exception Details:\n{}".format(ex)
-            print(msg)
+            stratus_logger.error(msg)
             raise
         finally:
             # always return to previous dir
@@ -140,7 +140,7 @@ class Delegate(dict):
 def main():
     d = Delegate(
         release='stratus-release',
-        build=DelegationRule(command='stratus-build')
+        build=DelegationRule(command='stratus-build'),
+        info=DelegationRule(command='stratus-info')
     )
-    print(f"sys.argv={sys.argv}")
     d(*sys.argv[1:])
